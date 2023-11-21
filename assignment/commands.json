@@ -1,0 +1,11 @@
+{
+  "command_name": "List",
+  "parameters": {
+
+    "pageNumber": 1,
+    "perPage": 10,
+    "sort": "Ascending",
+    "filterByAuthor": ""
+
+  }
+}
