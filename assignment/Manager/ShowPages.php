@@ -19,6 +19,6 @@ class ShowPages
 
     public function applyViewPages()
     {
-        echo 'Showing Pages.';
+        echo 'Showing Pages for list command.';
     }
 }
