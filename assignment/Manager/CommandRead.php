@@ -3,15 +3,19 @@
 declare(strict_types=1);
 namespace assignment\Manager;
 
-use assignment\Exceptions\{InvalidCommandNameException, InvalidListCommandParametersException};
+use assignment\Manager\Operator\ShowSelectedBook;
+use assignment\CommandParameters\{GetCommandParameters, ListCommandParameters};
+use assignment\Exceptions\{InvalidCommandNameException,
+    InvalidGetCommandParametersException,
+    InvalidListCommandParametersException};
 use assignment\Manager\Enums\CommandNames;
-use assignment\Validators\{CommandNameValidator, ListCommandParameterValidator};
-use assignment\Command_Parameters\ListCommandParameters;
+use assignment\Manager\Operator\ShowPages;
+use assignment\Validators\{CommandNameValidator, GetCommandParameterValidator, ListCommandParameterValidator};
 
 class CommandRead
 {
     private CommandNames $status = CommandNames::List;
-    private ListCommandParameters $parameters;
+    private $parameters;
 
     public function __construct()
     {
@@ -60,6 +64,9 @@ class CommandRead
                 break;
             case 'Get':
                 $this->status = CommandNames::Get;
+                # in this case, we initialize the parameters for the List command.
+                $this->initializeGetParameters(ISBN: $commandArray["parameters"]["ISBN"]);
+                $this->showSelectedBook();
                 break;
             case 'Add':
                 $this->status = CommandNames::Add;
@@ -94,16 +101,41 @@ class CommandRead
         # Initializing the $parameters property for the CommandRead class.
         $this->parameters = new ListCommandParameters(pageNumber: $pageNumber, perPage: $perPage, sort: $sort, filterByAuthor: $filterByAuthor);
     }
+    private function initializeGetParameters($ISBN = "")
+    {
 
+    /*
+        first, We create an array to validate the type of parameters for the Get command and
+        if its successful, we then proceed with validating the values for the Get command parameters
+    */
+        $parametersArray = ["ISBN" => $ISBN];
+        try {
+            $validateParameters = new GetCommandParameterValidator();
+            $validateParameters->validateCommandParametersTypes($parametersArray);
+            # Validating the List command parameter's values.
+            $validateParameters->validateParametersValue($parametersArray);
+        } catch (InvalidGetCommandParametersException $e)
+        {
+            echo $e->getMessage();
+            exit();
+        }
 
-
+        # Initializing the $parameters property for the CommandRead class.
+        $this->parameters = new GetCommandParameters(ISBN: $ISBN);
+    }
     private function showPages()
     {
-        /*
-        Given that now we have all the parameters we need, we begin showing the books list by first:
-        creating a property from ShowPage class and using it to do so.
-        */
+
         $showPages = new ShowPages($this->parameters->getPageNumber(), $this->parameters->getPerPage(), $this->parameters->getSort(), $this->parameters->getFilterByAuthor());
-        $showPages->applyViewPages();
+        $showPages->applyView();
+    }
+    private function showSelectedBook()
+    {
+        /*
+        Given that now we have all the parameters we need, we begin showing the book selected by user by
+        creating a property from ShowSelectedPage class and using it to do so.
+        */
+        $showSelectedBook = new ShowSelectedBook($this->parameters->getISBN());
+        $showSelectedBook->applyView();
     }
 }

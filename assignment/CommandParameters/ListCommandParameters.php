@@ -1,11 +1,17 @@
 <?php
 
-namespace assignment\Command_Parameters;
+namespace assignment\CommandParameters;
 
 class ListCommandParameters
 {
 
-    public function __construct(Private int $pageNumber = 1, Private int $perPage = 10, private string $sort = 'Ascending', private string $filterByAuthor = '')
+    public function __construct
+    (
+        Private int $pageNumber = 1,
+        Private int $perPage = 10,
+        private string $sort = 'Ascending',
+        private string $filterByAuthor = ''
+    )
     {}
     public function getPageNumber(): int
     {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace assignment\Validators;
-use assignment\Command_Parameters\ListCommandParameters;
+use assignment\CommandParameters\ListCommandParameters;
 use assignment\Exceptions\InvalidListCommandParametersException;
 
 class ListCommandParameterValidator implements CommandParameterValidator

@@ -1,7 +1,7 @@
 <?php
 
 namespace assignment\Validators;
-use assignment\Command_Parameters\ListCommandParameters;
+use assignment\CommandParameters\ListCommandParameters;
 
 interface CommandParameterValidator
 {

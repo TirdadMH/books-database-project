@@ -1,11 +1,6 @@
 {
-  "command_name": "List",
+  "command_name": "Get",
   "parameters": {
-
-    "pageNumber": 1,
-    "perPage": 20,
-    "sort": "Ascending",
-    "filterByAuthor": ""
-
+      "ISBN": ""
   }
 }

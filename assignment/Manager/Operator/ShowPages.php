@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace assignment\Manager;
+namespace assignment\Manager\Operator;
 
 use assignment\database\Classes\BooksDTO;
-use assignment\Manager\ViewList;
 use assignment\database\Classes\ReadDataBase;
 
-class ShowPages
+class ShowPages implements StandardOperator
 {
-
+    use BookTransferDTO;
     public function __construct(
         private int $pageNumber = 1,
         private int $perPage = 20,
@@ -18,7 +17,7 @@ class ShowPages
         private string $filterByAuthor = "")
     {}
 
-    public function applyViewPages(): void
+    public function applyView(): void
     {
         # First thing first: we read from Data Base:
         $books = new ReadDataBase();
@@ -42,21 +41,5 @@ class ShowPages
         );
     }
 
-    private function transferToBooksDTO(array $allData): array
-    {
-        $books = [];
-        for ($i = 0; $i < sizeof($allData); $i++)
-        {
-            $book = new BooksDTO
-            (
-                ISBN: $allData[$i]["ISBN"],
-                bookTitle: $allData[$i]["bookTitle"],
-                authorName: $allData[$i]["authorName"],
-                pagesCount: (int)$allData[$i]["pagesCount"],
-                publishDate: $allData[$i]["publishDate"]
-            );
-            $books[] = $book;
-        }
-        return $books;
-    }
+
 }

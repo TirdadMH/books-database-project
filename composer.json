@@ -1,6 +1,7 @@
 {
     "require": {
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+      "ext-ctype": "*"
     },
     "autoload": {
         "psr-4": {
