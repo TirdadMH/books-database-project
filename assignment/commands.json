@@ -3,7 +3,7 @@
   "parameters": {
 
     "pageNumber": 1,
-    "perPage": 10,
+    "perPage": 20,
     "sort": "Ascending",
     "filterByAuthor": ""
 

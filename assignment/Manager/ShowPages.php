@@ -13,7 +13,7 @@ class ShowPages
 
     public function __construct(
         private int $pageNumber = 1,
-        private int $perPage = 10,
+        private int $perPage = 20,
         private string $sort = "Ascending",
         private string $filterByAuthor = "")
     {}
@@ -32,8 +32,14 @@ class ShowPages
         unset($allData);
 
         # Now that we have everything we need in an array of objects from BooksDTO, we begin to show to the list:
-        
-
+        $viewList = new \assignment\Manager\ViewList
+        (
+            pageNumber: $this->pageNumber,
+            perPage: $this->perPage,
+            sort: $this->sort,
+            filterByAuthor: $this->filterByAuthor,
+            books: $books
+        );
     }
 
     private function transferToBooksDTO(array $allData): array

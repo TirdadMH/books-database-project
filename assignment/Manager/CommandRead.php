@@ -53,13 +53,11 @@ class CommandRead
         switch ($commandArray["command_name"])
         {
             case 'List':
-
                 $this->status = CommandNames::List;
                 # in this case, we initialize the parameters for the List command.
                 $this->initializeListParameters(pageNumber: $commandArray["parameters"]["pageNumber"], perPage: $commandArray["parameters"]["perPage"], sort: $commandArray["parameters"]["sort"], filterByAuthor: $commandArray["parameters"]["filterByAuthor"]);
                 $this->showPages();
                 break;
-
             case 'Get':
                 $this->status = CommandNames::Get;
                 break;

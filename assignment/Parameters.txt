@@ -1,0 +1,8 @@
+=============================
+"List":
+
+"pageNumber": 1,
+"perPage": 20,
+"sort": "Ascending",
+"filterByAuthor": ""
+=============================
