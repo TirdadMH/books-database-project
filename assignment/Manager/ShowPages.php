@@ -1,28 +1,27 @@
 <?php
 
 declare(strict_types=1);
+
 namespace assignment\Manager;
 
-use assignment\database\Classes\books;
+use assignment\database\Classes\ReadDataBase;
 
 class ShowPages
 {
-    private int $pageNumber = 1;
-    private int $perPage = 10;
-    private string $sort = "Ascending";
-    private string $filterBy = "Author";
 
-    public function __construct(int $pageNumber, int $perPage, string $sort, string $filterBy)
-    {
-        $this->pageNumber = $pageNumber;
-        $this->perPage = $perPage;
-        $this->sort = $sort;
-        $this->filterBy = $filterBy;
-    }
+    public function __construct(
+        private int $pageNumber = 1,
+        private int $perPage = 10,
+        private string $sort = "Ascending",
+        private string $filterByAuthor = "")
+    {}
 
     public function applyViewPages()
     {
-        $books = new books();
-        $books->readDataBase();
+        # First thing first: we read from Data Base:
+        $books = new ReadDataBase();
+
+        # Now we get all the read data:
+        $allData = $books->getAllData();
     }
 }
