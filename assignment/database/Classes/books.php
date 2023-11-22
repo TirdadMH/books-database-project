@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace assignment\database\Classes;
 
 class books
@@ -13,4 +14,17 @@ class books
     )
     {}
 
+    public function readDataBase()
+    {
+        $readFromJson = new ReadFromJson();
+        $readFromCsv = new ReadFromCsv();
+        $dataFromJson = $readFromJson->readFromDataBase();
+        $dataFromCsv = $readFromCsv->readFromDataBase();
+    }
 }
+
+//echo '<pre>';
+//print_r($dataFromJson);
+//echo '</pre>';
+//echo '</br>';
+

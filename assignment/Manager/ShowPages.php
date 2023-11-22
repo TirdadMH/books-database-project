@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
 namespace assignment\Manager;
+
+use assignment\database\Classes\books;
 
 class ShowPages
 {
@@ -19,6 +22,7 @@ class ShowPages
 
     public function applyViewPages()
     {
-        echo 'Showing Pages for list command.';
+        $books = new books();
+        $books->readDataBase();
     }
 }
