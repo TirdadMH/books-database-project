@@ -11,7 +11,7 @@ class GetCommandParameterValidator implements CommandParameterValidator
     {
         # Checking if ISBN is exactly 14 characters long.
         if (strlen($parametersArray["ISBN"]) !== 14)
-            throw new InvalidGetCommandParametersException("ERROR: ISBN must be 14 characters long");
+            throw new InvalidGetCommandParametersException("ERROR: the ISBN format should be ISBN-13.");
 
         # Checking if 4th character of ISBN is exactly a dash: "-"
         if ($parametersArray["ISBN"][3] !== '-')

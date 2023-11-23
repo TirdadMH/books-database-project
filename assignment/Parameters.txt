@@ -6,3 +6,16 @@
 "sort": "Ascending",
 "filterByAuthor": ""
 =============================
+"Get":
+
+"ISBN": ""
+=============================
+"Add"
+
+"ISBN": "128-7539512846",
+"bookTitle": "The Great Gatsby",
+"authorName": "F. Scott Fitzgerald",
+"pagesCount": 208,
+"publishDate": "2004-09-30",
+"addTo": ""
+=============================

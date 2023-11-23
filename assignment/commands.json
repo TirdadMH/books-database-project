@@ -1,6 +1,11 @@
 {
-  "command_name": "Get",
+  "command_name": "Add",
   "parameters": {
-      "ISBN": ""
+    "ISBN": "128-7539512846",
+    "bookTitle": "The Great Gatsby",
+    "authorName": "F. Scott Fitzgerald",
+    "pagesCount": 208,
+    "publishDate": "2004-09-30",
+    "addTo": ""
   }
 }

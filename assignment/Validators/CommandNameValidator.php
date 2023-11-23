@@ -10,8 +10,8 @@ class CommandNameValidator
     {
         switch ($CommandName)
         {
-            case 'List':
-            case 'Add':
+            case 'Index':
+            case 'Create':
             case 'Get':
             case 'Delete':
             case 'Update':
