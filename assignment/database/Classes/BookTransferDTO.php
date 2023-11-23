@@ -1,8 +1,6 @@
 <?php
 
-namespace assignment\Manager\Operator;
-
-use assignment\database\Classes\BooksDTO;
+namespace assignment\database\Classes;
 
 trait BookTransferDTO
 {

@@ -9,7 +9,7 @@ class BooksDTO
         private string $bookTitle = "",
         private string $authorName = "",
         private int $pagesCount = 0,
-        private string $publishDate = ""
+        private string $publishDate = "",
     ) {}
 
     public function getISBN(): string

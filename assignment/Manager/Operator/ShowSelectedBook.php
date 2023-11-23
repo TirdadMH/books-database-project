@@ -2,7 +2,7 @@
 
 namespace assignment\Manager\Operator;
 
-use assignment\database\Classes\BooksDTO;
+use assignment\database\Classes\BookTransferDTO;
 use assignment\database\Classes\ReadDataBase;
 use assignment\Manager\ViewSelected;
 

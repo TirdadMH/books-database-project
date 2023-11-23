@@ -3,14 +3,12 @@
 declare(strict_types=1);
 namespace assignment\Manager;
 
-use assignment\CommandParameters\{GetCommandParameters,
-                                  ListCommandParameters,
-                                  AddCommandParameters};
-use assignment\Exceptions\{InvalidCommandNameException,
-                           InvalidGetCommandParametersException,
-                           InvalidListCommandParametersException,
-                           InvalidAddCommandParametersException};
-use assignment\Manager\Enums\{CommandNames, DataBaseFileFormat};
+use assignment\CommandParameters\{AddCommandParameters, GetCommandParameters, ListCommandParameters};
+use assignment\Exceptions\{InvalidAddCommandParametersException,
+    InvalidCommandNameException,
+    InvalidGetCommandParametersException,
+    InvalidListCommandParametersException};
+use assignment\Manager\Enums\{CommandNames};
 use assignment\Manager\Operator\{ShowPages, ShowSelectedBook};
 use assignment\Validators\{AddCommandParameterValidator,
     CommandNameValidator,
@@ -19,7 +17,7 @@ use assignment\Validators\{AddCommandParameterValidator,
 
 class CommandRead
 {
-    private CommandNames $status = CommandNames::List;
+    private CommandNames $status = CommandNames::Index;
     private $parameters;
 
     public function __construct()
@@ -61,7 +59,7 @@ class CommandRead
         # First, we detect which type of command we will do, then we proceed with its parameters.
         switch ($commandArray["command_name"])
         {
-            case 'List':
+            case 'Index':
                 $this->status = CommandNames::Index;
                 # in this case, we initialize the parameters for the List command.
                 $this->initializeListParameters(pageNumber: $commandArray["parameters"]["pageNumber"], perPage: $commandArray["parameters"]["perPage"], sort: $commandArray["parameters"]["sort"], filterByAuthor: $commandArray["parameters"]["filterByAuthor"]);
@@ -73,10 +71,11 @@ class CommandRead
                 $this->initializeGetParameters(ISBN: $commandArray["parameters"]["ISBN"]);
                 $this->showSelectedBook();
                 break;
-            case 'Add':
+            case 'Create':
                 $this->status = CommandNames::Create;
                 # in this case, we initialize the parameters for the Add command.
                 $this->initializeAddParameters($commandArray);
+                $this->createBook($commandArray);
                 break;
             case 'Delete':
                 $this->status = CommandNames::Delete;
@@ -130,6 +129,36 @@ class CommandRead
         # Initializing the $parameters property for the CommandRead class.
         $this->parameters = new GetCommandParameters(ISBN: $ISBN);
     }
+    private function initializeAddParameters(array $commandArray)
+    {
+        try {
+            $validateParameters = new AddCommandParameterValidator();
+
+            # First we validate the file format:
+            $validateParameters->validateAddToParameter($commandArray["parameters"]["addTo"]);
+
+            # Second, We then proceed to validate the parameter's types:
+            $validateParameters->validateCommandParametersTypes($commandArray);
+
+            # Third, We validate the parameter's value:
+            $validateParameters->validateParametersValue($commandArray);
+
+        } catch (InvalidAddCommandParametersException $e)
+        {
+            echo $e->getMessage();
+            exit();
+        }
+
+        # Initializing the $parameters property for the CommandRead class.
+        $this->parameters = new AddCommandParameters
+        (
+            ISBN: $commandArray["parameters"]["ISBN"],
+            bookTitle: $commandArray["parameters"]["bookTitle"],
+            authorName: $commandArray["parameters"]["authorName"],
+            pagesCount: $commandArray["parameters"]["pagesCount"],
+            publishDate: $commandArray["parameters"]["publishDate"]
+        );
+    }
     private function showPages()
     {
         $showPages = new ShowPages($this->parameters->getPageNumber(), $this->parameters->getPerPage(), $this->parameters->getSort(), $this->parameters->getFilterByAuthor());
@@ -144,20 +173,17 @@ class CommandRead
         $showSelectedBook = new ShowSelectedBook($this->parameters->getISBN());
         $showSelectedBook->applyView();
     }
-    private function initializeAddParameters(array $commandArray)
+    private function createBook(array $commandArray)
     {
-        try {
-            $validateParameters = new AddCommandParameterValidator();
-            # First we validate the file format:
-            $validateParameters->validateAddToParameter($commandArray["parameters"]["addTo"]);
-            $validateParameters->validateCommandParametersTypes($commandArray);
-        } catch (InvalidAddCommandParametersException $e)
-        {
-            echo $e->getMessage();
-            exit();
-        }
-
-
+        $createBook = new CreateBook
+        (
+            ISBN: $this->parameters->getISBN(),
+            bookTitle: $this->parameters->getBookTitle(),
+            authorName: $this->parameters->getAuthorName(),
+            pagesCount: $this->parameters->getPagesCount(),
+            publishDate: $this->parameters->getPublishDate(),
+            addTo: $commandArray["parameters"]["addTo"]
+        );
+        $createBook->applyCreate();
     }
-
 }

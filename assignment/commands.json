@@ -1,11 +1,11 @@
 {
-  "command_name": "Add",
+  "command_name": "Create",
   "parameters": {
-    "ISBN": "128-7539512846",
-    "bookTitle": "The Great Gatsby",
-    "authorName": "F. Scott Fitzgerald",
-    "pagesCount": 208,
-    "publishDate": "2004-09-30",
-    "addTo": ""
+    "ISBN": "978-0452284234",
+    "bookTitle": "1984",
+    "authorName": "George Orwell",
+    "pagesCount": 300,
+    "publishDate": "1949-05-08",
+    "addTo": "csv"
   }
 }

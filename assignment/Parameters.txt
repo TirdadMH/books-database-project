@@ -1,5 +1,5 @@
 =============================
-"List":
+"Index":
 
 "pageNumber": 1,
 "perPage": 20,
@@ -10,7 +10,7 @@
 
 "ISBN": ""
 =============================
-"Add"
+"Create"
 
 "ISBN": "128-7539512846",
 "bookTitle": "The Great Gatsby",
@@ -19,3 +19,7 @@
 "publishDate": "2004-09-30",
 "addTo": ""
 =============================
+
+//echo '<pre>';
+//print_r($bookInfoArray);
+//echo '</pre>';

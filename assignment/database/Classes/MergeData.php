@@ -18,6 +18,3 @@ class MergeData
         return $this->mergedData;
     }
 }
-//echo '<pre>';
-//print_r($mergedData);
-//echo '</pre>';
