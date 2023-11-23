@@ -12,6 +12,13 @@ class ReadFromCsv
     {
         $csvBooks = fopen('assignment/database/books.csv', 'r');
         $dataBaseArray = $this->extractDataFromCsv($csvBooks);
+
+        # Deleting books that are softly deleted:
+        for ($i = 0; $i < sizeof($dataBaseArray); $i++)
+        {
+            if ($dataBaseArray[$i]["soft-deleted"] === 1)
+                unset($dataBaseArray[$i]);
+        }
         fclose($csvBooks);
         return $dataBaseArray;
     }

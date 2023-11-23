@@ -3,15 +3,20 @@
 declare(strict_types=1);
 namespace assignment\Manager;
 
-use assignment\CommandParameters\{AddCommandParameters, GetCommandParameters, ListCommandParameters};
+use assignment\CommandParameters\{AddCommandParameters,
+    DeleteCommandParameters,
+    GetCommandParameters,
+    ListCommandParameters};
 use assignment\Exceptions\{InvalidAddCommandParametersException,
     InvalidCommandNameException,
+    InvalidDeleteCommandParameters,
     InvalidGetCommandParametersException,
     InvalidListCommandParametersException};
 use assignment\Manager\Enums\{CommandNames};
-use assignment\Manager\Operator\{ShowPages, ShowSelectedBook};
+use assignment\Manager\Operator\{CreateBook, DeleteBooks, ShowPages, ShowSelectedBook};
 use assignment\Validators\{AddCommandParameterValidator,
     CommandNameValidator,
+    DeleteCommandParameterValidator,
     GetCommandParameterValidator,
     ListCommandParameterValidator};
 
@@ -61,13 +66,13 @@ class CommandRead
         {
             case 'Index':
                 $this->status = CommandNames::Index;
-                # in this case, we initialize the parameters for the List command.
+                # in this case, we initialize the parameters for the Index command.
                 $this->initializeListParameters(pageNumber: $commandArray["parameters"]["pageNumber"], perPage: $commandArray["parameters"]["perPage"], sort: $commandArray["parameters"]["sort"], filterByAuthor: $commandArray["parameters"]["filterByAuthor"]);
                 $this->showPages();
                 break;
             case 'Get':
                 $this->status = CommandNames::Get;
-                # in this case, we initialize the parameters for the List command.
+                # in this case, we initialize the parameters for the Get command.
                 $this->initializeGetParameters(ISBN: $commandArray["parameters"]["ISBN"]);
                 $this->showSelectedBook();
                 break;
@@ -79,6 +84,9 @@ class CommandRead
                 break;
             case 'Delete':
                 $this->status = CommandNames::Delete;
+                # in this case, we initialize the parameters for the Get command.
+                $this->initializeDeleteParameters(ISBN: $commandArray["parameters"]["ISBN"]);
+                $this->deleteBook();
                 break;
             case 'Update':
                 $this->status = CommandNames::Update;
@@ -159,6 +167,27 @@ class CommandRead
             publishDate: $commandArray["parameters"]["publishDate"]
         );
     }
+    private function initializeDeleteParameters($ISBN = "")
+    {
+        /*
+        first, We create an array to validate the type of parameters for the Delete command and
+        if its successful, we then proceed with validating the values for the Delete command parameters
+        */
+        $parametersArray = ["ISBN" => $ISBN];
+        try {
+            $validateParameters = new DeleteCommandParameterValidator();
+            $validateParameters->validateCommandParametersTypes($parametersArray);
+            # Validating the List command parameter's values.
+            $validateParameters->validateParametersValue($parametersArray);
+        } catch (InvalidDeleteCommandParameters $e)
+        {
+            echo $e->getMessage();
+            exit();
+        }
+
+        # Initializing the $parameters property for the CommandRead class.
+        $this->parameters = new DeleteCommandParameters(ISBN: $ISBN);
+    }
     private function showPages()
     {
         $showPages = new ShowPages($this->parameters->getPageNumber(), $this->parameters->getPerPage(), $this->parameters->getSort(), $this->parameters->getFilterByAuthor());
@@ -185,5 +214,15 @@ class CommandRead
             addTo: $commandArray["parameters"]["addTo"]
         );
         $createBook->applyCreate();
+    }
+    private function deleteBook()
+    {
+        /*
+        Given that now we have all the parameters we need, we begin deleting the book selected by user by
+        creating a property from DeleteBook class and using it to do so.
+        */
+        $deleteBook = new DeleteBooks($this->parameters->getISBN());
+        $deleteBook->applyDelete();
+        echo "Book Deleted Successfully!";
     }
 }

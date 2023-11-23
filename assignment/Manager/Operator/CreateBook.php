@@ -1,6 +1,6 @@
 <?php
 
-namespace assignment\Manager;
+namespace assignment\Manager\Operator;
 
 use assignment\database\Classes\{AddBookDTO, WriteOntoCsv, WriteOntoJson};
 

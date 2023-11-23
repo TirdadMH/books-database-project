@@ -9,10 +9,7 @@ use assignment\Manager\ViewSelected;
 class ShowSelectedBook implements StandardOperator
 {
     use BookTransferDTO;
-    public function __construct
-    (
-        private string $ISBN = ""
-    )
+    public function __construct(private string $ISBN = "")
     {}
     public function applyView(): void
     {

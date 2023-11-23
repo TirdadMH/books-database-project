@@ -21,7 +21,8 @@ class WriteOntoCsv implements WriteOntoDataBase
                 $this->bookInfo->getBookTitle(),
                 $this->bookInfo->getAuthorName(),
                 $this->bookInfo->getPagesCount(),
-                $this->bookInfo->getPublishDate()
+                $this->bookInfo->getPublishDate(),
+                0
             ];
         return $bookInfoArray;
     }

@@ -5,84 +5,96 @@
             "bookTitle": "Dystopian Chronicles",
             "authorName": "Aldous Orson",
             "pagesCount": 412,
-            "publishDate": "1950-09-21"
+            "publishDate": "1950-09-21",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0061120084",
             "bookTitle": "Beyond the Horizon",
             "authorName": "Aldous Orson",
             "pagesCount": 294,
-            "publishDate": "1962-03-17"
+            "publishDate": "1962-03-17",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0062316097",
             "bookTitle": "The Enigmatic Odyssey",
             "authorName": "Jonathan Thorne",
             "pagesCount": 256,
-            "publishDate": "1978-11-02"
+            "publishDate": "1978-11-02",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0451524935",
             "bookTitle": "The Illuminated Skies",
             "authorName": "Aldous Orson",
             "pagesCount": 128,
-            "publishDate": "1995-07-04"
+            "publishDate": "1995-07-04",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0307594005",
             "bookTitle": "Whispers in the Dark",
             "authorName": "Eleanor Caulfield",
             "pagesCount": 398,
-            "publishDate": "1984-10-15"
+            "publishDate": "1984-10-15",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0679413353",
             "bookTitle": "Echoes of Eternity",
             "authorName": "Christopher Redwood",
             "pagesCount": 512,
-            "publishDate": "1967-06-28"
+            "publishDate": "1967-06-28",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0141984635",
             "bookTitle": "The Animus Paradox",
             "authorName": "Isabella Orwell",
             "pagesCount": 242,
-            "publishDate": "2005-09-09"
+            "publishDate": "2005-09-09",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-1400032716",
             "bookTitle": "Sands of Serenity",
             "authorName": "Dominic Kingston",
             "pagesCount": 337,
-            "publishDate": "1999-02-18"
+            "publishDate": "1999-02-18",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-1451673315",
             "bookTitle": "Ephemeral Horizons",
             "authorName": "Penelope Frost",
             "pagesCount": 189,
-            "publishDate": "1973-08-23"
+            "publishDate": "1973-08-23",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0735619678",
             "bookTitle": "Endless Coding",
             "authorName": "Harold Jenkins",
             "pagesCount": 724,
-            "publishDate": "2010-12-05"
+            "publishDate": "2010-12-05",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0743273565",
             "bookTitle": "The Great Gatsby",
             "authorName": "F. Scott Fitzgerald",
             "pagesCount": 208,
-            "publishDate": "2004-09-30"
+            "publishDate": "2004-09-30",
+            "soft-deleted": false
         },
         {
             "ISBN": "978-0061120084",
             "bookTitle": "To Kill a Mockingbird",
             "authorName": "Harper Lee",
             "pagesCount": 336,
-            "publishDate": "1960-06-11"
+            "publishDate": "1960-06-11",
+            "soft-deleted": false
         }
     ]
 }

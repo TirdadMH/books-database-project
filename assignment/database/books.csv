@@ -1,23 +1,12 @@
-ISBN,bookTitle,authorName,pagesCount,publishDate
-978-1451635126,The Whispering Pines,Aldous Orson,412,1950-09-21
-978-0061120684,Chronicles of the Nebula,Benjamin O'Reilly,294,1962-03-17
-978-0062316857,Reflections in the Mirror,Lydia Holloway,256,1978-11-02
-978-0451526935,Serenade of the Stars,Thomas Winchester,128,1995-07-04
-978-0307594395,Beneath the Moonlit Sky,Amelia Hawthorne,398,1984-10-15
-978-0679413533,The Celestial Labyrinth,Sebastian Archer,512,1967-06-28
-978-0141984235,Whispers of Destiny,Christopher Redwood,242,2005-09-09
-978-1400088956,Shadows in the Mist,Edward Holloway,337,1999-02-18
-978-1456593315,The Silent Echo,Penelope Frost,189,1973-08-23
-978-0775619678,The Codebreaker's Dilemma,Christopher Redwood,724,2010-12-05
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
-978-0452284234,1984,"George Orwell",300,1949-05-08
+ISBN,bookTitle,authorName,pagesCount,publishDate,soft-deleted
+978-1451635126,"The Whispering Pines","Aldous Orson",412,1950-09-21,0
+978-0061120684,"Chronicles of the Nebula","Benjamin O'Reilly",294,1962-03-17,0
+978-0062316857,"Reflections in the Mirror","Lydia Holloway",256,1978-11-02,0
+978-0451526935,"Serenade of the Stars","Thomas Winchester",128,1995-07-04,0
+978-0307594395,"Beneath the Moonlit Sky","Amelia Hawthorne",398,1984-10-15,0
+978-0679413533,"The Celestial Labyrinth","Sebastian Archer",512,1967-06-28,0
+978-0141984235,"Whispers of Destiny","Christopher Redwood",242,2005-09-09,0
+978-1400088956,"Shadows in the Mist","Edward Holloway",337,1999-02-18,0
+978-1456593315,"The Silent Echo","Penelope Frost",189,1973-08-23,0
+978-0775619678,"The Codebreaker's Dilemma","Christopher Redwood",724,2010-12-05,0
+978-0452284234,1984,"George Orwell",300,1949-05-08,0

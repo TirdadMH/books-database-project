@@ -27,7 +27,8 @@ class WriteOntoJson implements WriteOntoDataBase
                 "bookTitle" => $this->bookInfo->getBookTitle(),
                 "authorName" => $this->bookInfo->getAuthorName(),
                 "pagesCount" => $this->bookInfo->getPagesCount(),
-                "publishDate" => $this->bookInfo->getPublishDate()
+                "publishDate" => $this->bookInfo->getPublishDate(),
+                "soft-deleted" => false
             ];
         return $bookInfoArray;
     }

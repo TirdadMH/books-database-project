@@ -1,11 +1,6 @@
 {
-  "command_name": "Create",
+  "command_name": "Delete",
   "parameters": {
-    "ISBN": "978-0452284234",
-    "bookTitle": "1984",
-    "authorName": "George Orwell",
-    "pagesCount": 300,
-    "publishDate": "1949-05-08",
-    "addTo": "csv"
+    "ISBN": "978-0452284234"
   }
 }

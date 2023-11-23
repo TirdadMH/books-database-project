@@ -12,6 +12,13 @@ class ReadFromJson implements ReadFromDatabase
         # Decoding the books.json content into an array:
         $dataBaseArray = json_decode(file_get_contents('assignment/database/books.json'), true);
 
+        # Deleting books that are softly deleted:
+        for ($i = 0; $i < sizeof($dataBaseArray["books"]); $i++)
+        {
+            if ($dataBaseArray["books"][$i]["soft-deleted"])
+                unset($dataBaseArray["books"][$i]);
+        }
+
         # Checking if decoding was successful:
         if ($dataBaseArray === null && json_last_error() !== JSON_ERROR_NONE)
         {
