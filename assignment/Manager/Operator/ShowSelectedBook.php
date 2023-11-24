@@ -11,7 +11,7 @@ class ShowSelectedBook implements StandardOperator
     use BookTransferDTO;
     public function __construct(private string $ISBN = "")
     {}
-    public function applyView(): void
+    public function applyOperator(): void
     {
         # First thing first: we read from Data Base:
         $books = new ReadDataBase();
@@ -27,7 +27,3 @@ class ShowSelectedBook implements StandardOperator
         $viewSelected = new ViewSelected(ISBN: $this->ISBN, books: $books);
     }
 }
-
-//        echo '<pre>';
-//        var_dump($books);
-//        echo '</pre>';

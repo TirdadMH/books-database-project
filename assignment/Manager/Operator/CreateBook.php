@@ -3,8 +3,9 @@
 namespace assignment\Manager\Operator;
 
 use assignment\database\Classes\{AddBookDTO, WriteOntoCsv, WriteOntoJson};
+use assignment\Manager\ViewCreated;
 
-class CreateBook
+class CreateBook implements StandardOperator
 {
     public function __construct
     (
@@ -17,7 +18,7 @@ class CreateBook
     )
     {}
 
-    public function applyCreate(): void
+    public function applyOperator(): void
     {
         # Transfers Book's info to DTO
         $DTO = $this->transferInfoToDTO();
@@ -31,7 +32,9 @@ class CreateBook
                 break;
         }
         $this->addToAuthorsJson();
-        $this->showMessage($DTO);
+
+        # Showing the added book:
+        $viewCreated = new ViewCreated($DTO);
     }
     private function transferInfoToDTO(): AddBookDTO
     {
@@ -45,38 +48,6 @@ class CreateBook
             addTo: $this->addTo
         );
         return $DTO;
-    }
-    private function showMessage(AddBookDTO $DTO)
-    {
-        echo 'the Following Book Added Successfully: ' . '</br>' . '</br>';
-        echo '<style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>';
-
-        echo '<table>
-        <tr>
-            <th>ISBN</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Pages</th>
-            <th>Publish Date</th>
-        </tr>';
-            echo '<tr>';
-            echo '<td>' . $DTO->getISBN() . '</td>';
-            echo '<td>' . $DTO->getBookTitle() . '</td>';
-            echo '<td>' . $DTO->getAuthorName() . '</td>';
-            echo '<td>' . $DTO->getPagesCount() . '</td>';
-            echo '<td>' . $DTO->getPublishDate() . '</td>';
-            echo '</tr>';
-        echo '</table>';
     }
     private function addToAuthorsJson()
     {

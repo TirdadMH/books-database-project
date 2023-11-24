@@ -2,9 +2,8 @@
 
 namespace assignment\CommandParameters;
 
-class ListCommandParameters
+class ListCommandParameters implements CommandParameters
 {
-
     public function __construct
     (
         Private int $pageNumber = 1,

@@ -1,6 +1,9 @@
 {
-  "command_name": "Delete",
+  "command_name": "Index",
   "parameters": {
-    "ISBN": "978-0452284234"
+    "pageNumber": 1,
+    "perPage": 23,
+    "sort": "Ascending",
+    "filterByAuthor": ""
   }
 }

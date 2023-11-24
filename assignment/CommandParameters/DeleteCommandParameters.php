@@ -2,7 +2,7 @@
 
 namespace assignment\CommandParameters;
 
-class DeleteCommandParameters
+class DeleteCommandParameters implements CommandParameters
 {
     public function __construct
     (

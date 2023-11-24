@@ -1,30 +1,35 @@
+Allowed Command Names and Parameters with their example:
 =============================
 "Index":
 
-"pageNumber": 1,
-"perPage": 20,
-"sort": "Ascending",
-"filterByAuthor": ""
+"pageNumber": 1,                        # only natural numbers allowed.
+"perPage": 20,                          # only natural numbers allowed.
+"sort": "Ascending",                    # only "Ascending" or "Descending" allowed.
+"filterByAuthor": ""                    # only a string allowed. also, no filter will apply if it's empty or Author's name not found.
 =============================
 "Get":
 
-"ISBN": ""
+"ISBN": ""                              # only a string of ISBN-13 number is allowed. example: 123-1234567890
 =============================
 "Create"
 
-"ISBN": "128-7539512846",
-"bookTitle": "The Great Gatsby",
-"authorName": "F. Scott Fitzgerald",
-"pagesCount": 208,
-"publishDate": "2004-09-30",
-"addTo": ""
+"ISBN": "123-1234567890",               # only a string of ISBN-13 number is allowed. example: 123-1234567890
+"bookTitle": "The Book Title",          # only a string is allowed. also, empty string will result in a caught Error.
+"authorName": "Author's Name",          # only a string is allowed. also, empty string will result in a caught Error.
+"pagesCount": 123,                      # only natural numbers allowed.
+"publishDate": "1234-56-78",            # only a string of this time format is allowed: 1234-56-78
+"addTo": ""                             # only "csv" or "json" is allowed, anything else will result in a caught Error.
 =============================
 "Delete"
 
-"ISBN": "128-7539512846"
+"ISBN": "123-1234567890"                # only a string of ISBN-13 number is allowed. example: 123-1234567890
 =============================
+"Update"
 
-//echo '<pre>';
-//print_r($bookInfoArray);
-//echo '</pre>';
+"ISBN": "123-1234567890",               # only a string of ISBN-13 number is allowed. example: 123-1234567890
+"bookTitle": "Updated Book Title",      # only a string is allowed. also, empty string will not change the content of its field.
+"authorName": "Updated Author's Name",  # only a string is allowed. also, empty string will not change the content of its field.
+"pagesCount": 123,                      # only whole numbers allowed, also 0 will not change the content of its field.
+"publishDate": "1234-56-78"             # only a string of this time format is allowed: 1234-56-78. also, empty string will not change the content of its field.
+=============================
 

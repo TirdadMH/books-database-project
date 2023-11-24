@@ -2,9 +2,7 @@
 
 namespace assignment\CommandParameters;
 
-use assignment\Manager\Enums\DataBaseFileFormat;
-
-class AddCommandParameters implements CommandParameters
+class UpdateCommandParameters implements CommandParameters
 {
     public function __construct
     (

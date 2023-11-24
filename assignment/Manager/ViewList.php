@@ -27,6 +27,7 @@ class ViewList
 
     private function filterByAuthor(): array
     {
+        $isBooksListEmpty = true;
         $booksList = [];
         if ($this->filterByAuthor === "")
         {
@@ -36,9 +37,13 @@ class ViewList
         {
             if ($this->books[$i]->getAuthorName() === $this->filterByAuthor)
                 {
+                    $isBooksListEmpty = false;
                     $booksList[] = $this->books[$i];
                 }
         }
+        if ($isBooksListEmpty)
+            return $this->books;
+
         return $booksList;
     }
 

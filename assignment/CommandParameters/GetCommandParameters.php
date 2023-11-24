@@ -2,7 +2,7 @@
 
 namespace assignment\CommandParameters;
 
-class GetCommandParameters
+class GetCommandParameters implements CommandParameters
 {
     public function __construct
     (

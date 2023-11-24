@@ -4,14 +4,16 @@ namespace assignment\Validators;
 
 use assignment\Exceptions\InvalidAddCommandParametersException;
 
-class AddCommandParameterValidator implements CommandParameterValidator, ValidateISBN
+class AddCommandParameterValidator implements CommandParameterValidator, ValidateISBN, ValidatePublishDate
 {
     public function validateParametersValue(array $parametersArray): void
     {
         $this->validateISBN($parametersArray["parameters"]["ISBN"]);
         $this->validatePublishDate($parametersArray["parameters"]["publishDate"]);
-        if ($parametersArray["parameters"]["pagesCount"] < 0)
+        if ($parametersArray["parameters"]["pagesCount"] < 1)
             throw new InvalidAddCommandParametersException('ERROR: pageCount parameter can NOT be a negative number.');
+        if ($parametersArray["parameters"]["bookTitle"] === ""|| $parametersArray["parameters"]["authorName"] === "")
+            throw new InvalidAddCommandParametersException('ERROR: bookTitle or authorName parameter can NOT be empty.');
     }
     public function validateCommandParametersTypes(array $parametersArray): void
     {
@@ -55,7 +57,7 @@ class AddCommandParameterValidator implements CommandParameterValidator, Validat
         if (!(ctype_digit($unixTimeStamp))) // Validating if Unix timestamp string only contains numeric characters.
             throw new InvalidAddCommandParametersException("ERROR: Unix timestamp is not a Number");
     }
-    private function validatePublishDate(string $publishDate): void
+    function validatePublishDate(string $publishDate): void
     {
         # Checking if ISBN is exactly 14 characters long.
         if (strlen($publishDate) !== 10)

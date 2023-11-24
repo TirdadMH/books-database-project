@@ -16,8 +16,7 @@ class ShowPages implements StandardOperator
         private string $sort = "Ascending",
         private string $filterByAuthor = "")
     {}
-
-    public function applyView(): void
+    public function applyOperator(): void
     {
         # First thing first: we read from Data Base:
         $books = new ReadDataBase();
@@ -40,6 +39,4 @@ class ShowPages implements StandardOperator
             books: $books
         );
     }
-
-
 }

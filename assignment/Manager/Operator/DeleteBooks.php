@@ -4,11 +4,12 @@ namespace assignment\Manager\Operator;
 
 use assignment\database\Classes\ReadDataBase;
 
-class DeleteBooks
+class DeleteBooks implements StandardOperator, GetIndex
 {
+    use UpdateDataBaseFiles;
     public function __construct(private string $ISBN = "")
     {}
-    public function applyDelete(): void
+    public function applyOperator(): void
     {
         # First thing first: we read from Data Base:
         $books = new ReadDataBase();
@@ -24,39 +25,19 @@ class DeleteBooks
         if ($index0fCsv === -1 && $index0fJson !== -1)
         {
             # Now we Delete:
-            $jsonData = $this->deleteBook($index0fJson, $jsonData);
-            $readyToJson = ["books" => $jsonData];
-            file_put_contents('assignment/database/books.json', json_encode($readyToJson, JSON_PRETTY_PRINT));
+            $jsonData = $this->deleteBook($index0fJson, $jsonData, false);
+
+            # Updating the books.json:
+            $this->updateJsonFile($jsonData);
         }
         else if ($index0fCsv !== -1 && $index0fJson === -1)
         {
             # Now we Delete:
-            $csvData = $this->deleteBook($index0fCsv, $csvData);
+            $csvData = $this->deleteBook($index0fCsv, $csvData, true);
 
-            # Getting header from books.csv file:
-            $csvBooks = fopen('assignment/database/books.csv', 'r');
-            $headersArray = fgetcsv($csvBooks);
-            fclose($csvBooks);
+            # Updating the books.csv:
+            $this->updateCsvFile($csvData);
 
-            # Clearing the content of books.csv file
-            $csvBooks = fopen('assignment/database/books.csv', 'w');
-            fclose($csvBooks);
-
-            # Opening a file handle for adding new book
-            $csvBooks = fopen('assignment/database/books.csv', 'a');
-
-            # Putting Header back in the cleared file:
-            fputcsv($csvBooks, $headersArray);
-
-            # Putting everything back together
-            foreach ($csvData as $data)
-                {
-                    # rewriting the Array as a CSV row:
-                    fputcsv($csvBooks, $data);
-                }
-
-            # Closing the file handle
-            fclose($csvBooks);
         }
         else if ($index0fCsv === -1 && $index0fJson === -1)
         {
@@ -65,7 +46,7 @@ class DeleteBooks
         }
     }
 
-    private function getISBNIndex(array $data): int|string
+    function getISBNIndex(array $data): int
     {
         for ($i = 0; $i < sizeof($data); $i++)
         {
@@ -82,9 +63,11 @@ class DeleteBooks
         }
         return -1;
     }
-    private function deleteBook(int $index, array $data): array
+    private function deleteBook(int $index, array $data, bool $isCSV): array
     {
-        $data[$index]["soft-deleted"] = 1;
+        if ($isCSV)
+            $data[$index]["soft-deleted"] = 1;
+        else $data[$index]["soft-deleted"] = true;
         return $data;
     }
 }
