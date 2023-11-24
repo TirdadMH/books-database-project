@@ -1,6 +1,6 @@
 <?php
 
-namespace assignment\Validators;
+namespace assignment\Validators\CommandParameterValidator;
 
 use assignment\Exceptions\InvalidDeleteCommandParametersException;
 

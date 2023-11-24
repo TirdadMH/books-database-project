@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace assignment\Validators;
+namespace assignment\Validators\CommandParameterValidator;
 
 use assignment\Exceptions\InvalidUpdateCommandParametersException;
 

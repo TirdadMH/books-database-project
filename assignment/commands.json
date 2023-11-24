@@ -1,11 +1,9 @@
 {
-  "command_name": "Create",
+  "command_name": "Index",
   "parameters": {
-    "ISBN": "978-0062409850",
-    "bookTitle": "Go Set a Watchman",
-    "authorName": "Harper Lee",
-    "pagesCount": 278,
-    "publishDate": "2015-07-14",
-    "addTo": "csv"
+    "pageNumber": 1,
+    "perPage": 20,
+    "sort": "Ascending",
+    "filterByAuthor": ""
   }
 }

@@ -11,7 +11,8 @@ use assignment\CommandParameters\{
     UpdateCommandParameters,
     CommandParameters};
 
-use assignment\Exceptions\{InvalidAddCommandParametersException,
+use assignment\Exceptions\{CommandMatchException,
+    InvalidAddCommandParametersException,
     InvalidCommandNameException,
     InvalidDeleteCommandParametersException,
     InvalidGetCommandParametersException,
@@ -21,12 +22,14 @@ use assignment\Exceptions\{InvalidAddCommandParametersException,
 use assignment\Manager\Enums\{CommandNames};
 use assignment\Manager\Operator\{CreateBook, DeleteBooks, ShowPages, ShowSelectedBook, UpdateBook};
 
-use assignment\Validators\{CommandNameValidator,
+use assignment\Validators\CommandParameterValidator\{
     AddCommandParameterValidator,
     DeleteCommandParameterValidator,
     GetCommandParameterValidator,
     ListCommandParameterValidator,
     UpdateCommandParameterValidator};
+
+use assignment\Validators\{CommandMatchValidator, CommandNameValidator,};
 
 class CommandRead
 {
@@ -38,6 +41,9 @@ class CommandRead
         # Validating command name.
         $commandArray = $this->validateCommandName();
 
+        # Validating a match between command name and command parameters.
+        $this->validateMatch($commandArray);
+
         # Initializing the $status property.
         $this->initializeStatusValue($commandArray);
     }
@@ -45,7 +51,13 @@ class CommandRead
     private function validateCommandName(): array
     {
         # Extracting command.json file's content to an array using another function.
-        $commandArray = $this->extractFromJson();
+        try {
+            $commandArray = $this->extractFromJson();
+        } catch (CommandMatchException $e)
+        {
+            echo $e->getMessage();
+            exit();
+        }
 
         /*
             Validating the Name of the Command written in commands.json file
@@ -65,7 +77,21 @@ class CommandRead
     }
     private function extractFromJson(): array
     {
-        return json_decode(file_get_contents('assignment/commands.json'), true);
+        $commandArray = json_decode(file_get_contents('assignment/commands.json'), true);
+        if ($commandArray === null)
+            throw new CommandMatchException("wtf I suppose to do with this? :\\");
+        return $commandArray;
+    }
+    private function validateMatch(array $commandArray): void
+    {
+        try {
+            $commandMatchValidator = new CommandMatchValidator();
+            $commandMatchValidator->validateParametersKeys($commandArray);
+        } catch (CommandMatchException $e)
+        {
+            echo $e->getMessage();
+            exit();
+        }
     }
     private function initializeStatusValue(array $commandArray): void
     {
@@ -75,25 +101,25 @@ class CommandRead
             case 'Index':
                 $this->status = CommandNames::Index;
                 # in this case, we initialize the parameters for the Index command.
-                $this->initializeListParameters(pageNumber: $commandArray["parameters"]["pageNumber"], perPage: $commandArray["parameters"]["perPage"], sort: $commandArray["parameters"]["sort"], filterByAuthor: $commandArray["parameters"]["filterByAuthor"]);
+                $this->initializeListParameters($commandArray);
                 $this->showPages();
                 break;
             case 'Get':
                 $this->status = CommandNames::Get;
                 # in this case, we initialize the parameters for the Get command.
-                $this->initializeGetParameters(ISBN: $commandArray["parameters"]["ISBN"]);
+                $this->initializeGetParameters($commandArray);
                 $this->showSelectedBook();
                 break;
             case 'Create':
                 $this->status = CommandNames::Create;
                 # in this case, we initialize the parameters for the Add command.
                 $this->initializeAddParameters($commandArray);
-                $this->createBook($commandArray);
+                $this->createBook($commandArray["parameters"]["addTo"]);
                 break;
             case 'Delete':
                 $this->status = CommandNames::Delete;
                 # in this case, we initialize the parameters for the Delete command.
-                $this->initializeDeleteParameters(ISBN: $commandArray["parameters"]["ISBN"]);
+                $this->initializeDeleteParameters($commandArray);
                 $this->deleteBook();
                 break;
             case 'Update':
@@ -104,14 +130,21 @@ class CommandRead
                 break;
         }
     }
-    private function initializeListParameters($pageNumber = 1, $perPage = 10, $sort = "Ascending", $filterByAuthor = ""): void
+    private function initializeListParameters(array $commandArray): void
     {
         
     /*
         first, We create an array to validate the type of parameters for the List command and
         if its successful, we then proceed with validating the values for the List command parameters
     */
-        $parametersArray = ["pageNumber" => $pageNumber, "perPage" => $perPage, "sort" => $sort, "filterByAuthor" => $filterByAuthor];
+        $parametersArray =
+            [
+            "pageNumber" => $commandArray["parameters"]["pageNumber"],
+            "perPage" => $commandArray["parameters"]["perPage"],
+            "sort" => $commandArray["parameters"]["sort"],
+            "filterByAuthor" => $commandArray["parameters"]["filterByAuthor"]
+            ];
+
         try {
             $validateParameters = new ListCommandParameterValidator();
             $validateParameters->validateCommandParametersTypes($parametersArray);
@@ -124,16 +157,22 @@ class CommandRead
         }
 
         # Initializing the $parameters property for the CommandRead class.
-        $this->parameters = new ListCommandParameters(pageNumber: $pageNumber, perPage: $perPage, sort: $sort, filterByAuthor: $filterByAuthor);
+        $this->parameters = new ListCommandParameters
+        (
+            pageNumber: $parametersArray["pageNumber"],
+            perPage: $parametersArray["perPage"],
+            sort: $parametersArray["sort"],
+            filterByAuthor: $parametersArray["filterByAuthor"]
+        );
     }
-    private function initializeGetParameters($ISBN = ""): void
+    private function initializeGetParameters(array $commandArray): void
     {
 
     /*
         first, We create an array to validate the type of parameters for the Get command and
         if its successful, we then proceed with validating the values for the Get command parameters
     */
-        $parametersArray = ["ISBN" => $ISBN];
+        $parametersArray = ["ISBN" => $commandArray["parameters"]["ISBN"]];
         try {
             $validateParameters = new GetCommandParameterValidator();
             $validateParameters->validateCommandParametersTypes($parametersArray);
@@ -146,7 +185,7 @@ class CommandRead
         }
 
         # Initializing the $parameters property for the CommandRead class.
-        $this->parameters = new GetCommandParameters(ISBN: $ISBN);
+        $this->parameters = new GetCommandParameters(ISBN: $parametersArray["ISBN"]);
     }
     private function initializeAddParameters(array $commandArray): void
     {
@@ -178,13 +217,13 @@ class CommandRead
             publishDate: $commandArray["parameters"]["publishDate"]
         );
     }
-    private function initializeDeleteParameters($ISBN = ""): void
+    private function initializeDeleteParameters(array $commandArray): void
     {
         /*
         first, We create an array to validate the type of parameters for the Delete command and
         if its successful, we then proceed with validating the values for the Delete command parameters
         */
-        $parametersArray = ["ISBN" => $ISBN];
+        $parametersArray = ["ISBN" => $commandArray["parameters"]["ISBN"]];
         try {
             $validateParameters = new DeleteCommandParameterValidator();
             $validateParameters->validateCommandParametersTypes($parametersArray);
@@ -197,7 +236,7 @@ class CommandRead
         }
 
         # Initializing the $parameters property for the CommandRead class.
-        $this->parameters = new DeleteCommandParameters(ISBN: $ISBN);
+        $this->parameters = new DeleteCommandParameters(ISBN: $parametersArray["ISBN"]);
     }
     private function initializeUpdateParameters(array $commandArray): void
     {
@@ -239,7 +278,7 @@ class CommandRead
         $showSelectedBook = new ShowSelectedBook($this->parameters->getISBN());
         $showSelectedBook->applyOperator();
     }
-    private function createBook(array $commandArray): void
+    private function createBook(string $addTo): void
     {
         $createBook = new CreateBook
         (
@@ -248,7 +287,7 @@ class CommandRead
             authorName: $this->parameters->getAuthorName(),
             pagesCount: $this->parameters->getPagesCount(),
             publishDate: $this->parameters->getPublishDate(),
-            addTo: $commandArray["parameters"]["addTo"]
+            addTo: $addTo
         );
         $createBook->applyOperator();
     }
