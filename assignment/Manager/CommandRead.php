@@ -31,7 +31,6 @@ use assignment\Validators\{CommandNameValidator,
 class CommandRead
 {
     private CommandNames $status = CommandNames::Index;
-
     private CommandParameters $parameters; // Used polymorphism here
 
     public function __construct()

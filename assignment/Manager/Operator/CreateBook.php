@@ -49,13 +49,28 @@ class CreateBook implements StandardOperator
         );
         return $DTO;
     }
-    private function addToAuthorsJson()
+    private function addToAuthorsJson(): void
     {
+
         # Reading from authors.json
         $authorsArray = json_decode(file_get_contents('assignment/database/authors.json'), true);
 
+        # checking if author's name already exist:
+        for ($i = 0; $i < sizeof($authorsArray["authors"]); $i++)
+        {
+            if ($authorsArray["authors"][$i] === $this->authorName)
+            {
+                return;
+            }
+        }
+
         # Adding new author to the index
         $authorsArray["authors"][] = $this->authorName;
+
+        # clearing the authors.json before writing to it again:
+        $emptyJsonArray = [];
+        $emptyJson = json_encode($emptyJsonArray);
+        file_put_contents('assignment/database/authors.json', $emptyJson);
 
         # Encoding the updated authors index back to JSON and Writing the updated JSON string back to the file
         file_put_contents('assignment/database/authors.json', json_encode($authorsArray, JSON_PRETTY_PRINT));

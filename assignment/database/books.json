@@ -95,6 +95,14 @@
             "pagesCount": 336,
             "publishDate": "1960-06-11",
             "soft-deleted": false
+        },
+        {
+            "ISBN": "978-0451526342",
+            "bookTitle": "Animal Farm",
+            "authorName": "George Orwell",
+            "pagesCount": 144,
+            "publishDate": "1945-08-17",
+            "soft-deleted": false
         }
     ]
 }
