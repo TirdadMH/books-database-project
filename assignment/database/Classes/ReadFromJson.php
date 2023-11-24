@@ -3,10 +3,14 @@
 declare(strict_types=1);
 namespace assignment\database\Classes;
 
+# Open ReadFromDatabase interface for additional info.
 class ReadFromJson implements ReadFromDatabase
 {
     public function __construct(){}
 
+    /**
+     * @return array
+     */
     public function readFromDataBase(): array
     {
         # Decoding the books.json content into an array:
@@ -22,8 +26,10 @@ class ReadFromJson implements ReadFromDatabase
         # Checking if decoding was successful:
         if ($dataBaseArray === null && json_last_error() !== JSON_ERROR_NONE)
         {
-            die('Error decoding JSON: ' . json_last_error_msg());
+            die('ERROR decoding JSON: ' . json_last_error_msg());
         }
+
+        # Returning books read from books.json in an array.
         return $dataBaseArray["books"];
     }
 }

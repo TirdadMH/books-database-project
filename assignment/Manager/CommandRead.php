@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace assignment\Manager;
 
+# All the Namespaces used in this project.
 use assignment\CommandParameters\{
     AddCommandParameters,
     DeleteCommandParameters,
@@ -11,7 +12,8 @@ use assignment\CommandParameters\{
     UpdateCommandParameters,
     CommandParameters};
 
-use assignment\Exceptions\{CommandMatchException,
+use assignment\Exceptions\{
+    CommandMatchException,
     InvalidAddCommandParametersException,
     InvalidCommandNameException,
     InvalidDeleteCommandParametersException,
@@ -33,9 +35,13 @@ use assignment\Validators\{CommandMatchValidator, CommandNameValidator,};
 
 class CommandRead
 {
+    # Status property will determine behaving of the code.
     private CommandNames $status = CommandNames::Index;
-    private CommandParameters $parameters; // Used polymorphism here
 
+    # Parameters property stores the parameters read from commands.json file.
+    private CommandParameters $parameters; // Use of polymorphism here.
+
+    # Basically, all the work is done under these 3 line of code in the constructor of CommandRead class.
     public function __construct()
     {
         # Validating command name.
@@ -50,10 +56,15 @@ class CommandRead
 
     private function validateCommandName(): array
     {
-        # Extracting command.json file's content to an array using another function.
-        try {
+        /*
+            Extracting command.json file's content to an array using another function.
+            If it's not successful, code throws an exception in extractFromJson() method.
+        */
+        try
+        {
             $commandArray = $this->extractFromJson();
-        } catch (CommandMatchException $e)
+        }
+        catch (CommandMatchException $e)
         {
             echo $e->getMessage();
             exit();
@@ -61,30 +72,43 @@ class CommandRead
 
         /*
             Validating the Name of the Command written in commands.json file
-            and if it fails, we throw an error regarding the Invalid command name.
+            and if it fails, code throws an error regarding the Invalid command name.
         */
-        try {
+        try
+        {
             $nameValidation = new CommandNameValidator();
             $nameValidation->validateName($commandArray["command_name"]);
-        } catch (InvalidCommandNameException $e)
+        }
+        catch (InvalidCommandNameException $e)
         {
             echo $e->getMessage();
             exit();
         }
 
-        # If everything was successful, then we proceed with the correct command name extracted from the file.
+        # If everything was successful, code then proceeds with the correct command name extracted from the commands.json file.
         return $commandArray;
     }
+
+    /**
+     * @return array
+     * @throws CommandMatchException
+     */
     private function extractFromJson(): array
     {
+        # Extracting info from commands.json
         $commandArray = json_decode(file_get_contents('assignment/commands.json'), true);
+
+        # Checking if extraction was a success.
         if ($commandArray === null)
             throw new CommandMatchException("wtf I suppose to do with this? :\\");
+
+        # Returning an array of commands and parameters extracted from commands.json
         return $commandArray;
     }
     private function validateMatch(array $commandArray): void
     {
-        try {
+        try
+        {
             $commandMatchValidator = new CommandMatchValidator();
             $commandMatchValidator->validateParametersKeys($commandArray);
         } catch (CommandMatchException $e)
@@ -93,35 +117,45 @@ class CommandRead
             exit();
         }
     }
+
+    /**
+     * @param array $commandArray
+     * @return void
+     */
     private function initializeStatusValue(array $commandArray): void
     {
-        # First, we detect which type of command we will do, then we proceed with its parameters.
+        # First, code detects which type of command it will do, then it proceeds with its parameters.
         switch ($commandArray["command_name"])
         {
             case 'Index':
                 $this->status = CommandNames::Index;
                 # in this case, we initialize the parameters for the Index command.
                 $this->initializeListParameters($commandArray);
+                # code begins to index everything:
                 $this->showPages();
                 break;
+
             case 'Get':
                 $this->status = CommandNames::Get;
                 # in this case, we initialize the parameters for the Get command.
                 $this->initializeGetParameters($commandArray);
                 $this->showSelectedBook();
                 break;
+
             case 'Create':
                 $this->status = CommandNames::Create;
                 # in this case, we initialize the parameters for the Add command.
                 $this->initializeAddParameters($commandArray);
                 $this->createBook($commandArray["parameters"]["addTo"]);
                 break;
+
             case 'Delete':
                 $this->status = CommandNames::Delete;
                 # in this case, we initialize the parameters for the Delete command.
                 $this->initializeDeleteParameters($commandArray);
                 $this->deleteBook();
                 break;
+
             case 'Update':
                 $this->status = CommandNames::Update;
                 # in this case, we initialize the parameters for the Update command.
@@ -130,13 +164,19 @@ class CommandRead
                 break;
         }
     }
+
+    /**
+     * @param array $commandArray
+     * @return void
+     */
     private function initializeListParameters(array $commandArray): void
     {
         
     /*
-        first, We create an array to validate the type of parameters for the List command and
-        if its successful, we then proceed with validating the values for the List command parameters
+        first, code creates an array to validate the type of parameters for the List command and
+        if its successful, code then proceed with validating the values for the List command parameters.
     */
+        # An array to store parameter values whilst code validates them.
         $parametersArray =
             [
             "pageNumber" => $commandArray["parameters"]["pageNumber"],
@@ -145,12 +185,15 @@ class CommandRead
             "filterByAuthor" => $commandArray["parameters"]["filterByAuthor"]
             ];
 
-        try {
+        try
+        {
             $validateParameters = new ListCommandParameterValidator();
+            # Validating the List command parameter's types.
             $validateParameters->validateCommandParametersTypes($parametersArray);
             # Validating the List command parameter's values.
             $validateParameters->validateParametersValue($parametersArray);
-        } catch (InvalidListCommandParametersException $e)
+        }
+        catch (InvalidListCommandParametersException $e)
         {
             echo $e->getMessage();
             exit();
@@ -255,6 +298,7 @@ class CommandRead
             exit();
         }
 
+        # Initializing the $parameters property for the CommandRead class.
         $this->parameters = new UpdateCommandParameters
         (
             ISBN: $commandArray["parameters"]["ISBN"],
@@ -266,7 +310,15 @@ class CommandRead
     }
     private function showPages(): void
     {
-        $showPages = new ShowPages($this->parameters->getPageNumber(), $this->parameters->getPerPage(), $this->parameters->getSort(), $this->parameters->getFilterByAuthor());
+        # Transferring the parameters to another class responsible for indexing the books.
+        $showPages = new ShowPages
+        (
+            $this->parameters->getPageNumber(),
+            $this->parameters->getPerPage(),
+            $this->parameters->getSort(),
+            $this->parameters->getFilterByAuthor()
+        );
+        # code asks this method from ShowPages class to apply the Indexing.
         $showPages->applyOperator();
     }
     private function showSelectedBook():void

@@ -4,6 +4,12 @@ namespace assignment\database\Classes;
 
 trait BookTransferDTO
 {
+    /**
+     * @param array $allData
+     * @return array: returns an array of BooksDTO objects.
+     * this method transfers the books information from an array to a DTO.
+     *
+     */
     private function transferToBooksDTO(array $allData): array
     {
         $books = [];

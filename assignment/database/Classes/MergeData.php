@@ -13,6 +13,7 @@ class MergeData
         $this->mergedData = array_merge($csvData, $jsonData);
     }
 
+    # a Getter method for mergedData property.
     public function getMergedData(): array
     {
         return $this->mergedData;

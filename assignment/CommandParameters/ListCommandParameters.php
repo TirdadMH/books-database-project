@@ -12,6 +12,8 @@ class ListCommandParameters implements CommandParameters
         private string $filterByAuthor = ''
     )
     {}
+
+    # Getter functions to get the user setting's values.
     public function getPageNumber(): int
     {
         return $this->pageNumber;
